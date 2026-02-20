@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.shreyash.demo.model.Employee;
 import com.shreyash.demo.service.EmployeeMgmtServiceImpl;
@@ -32,9 +33,9 @@ public class EmployeeOperationsController {
 	
 	@GetMapping("/report")
 	public String showAllEmployeesReport(Map<String,Object> map) {
-		List<Employee> emplist = empService.getAllEmployees();
-		map.put("empData", emplist);
-		return "employee_report";
+	    List<Employee> emplist = empService.getAllEmployees();
+	    map.put("empData", emplist);
+	    return "employee_report";
 	}
 	
 	@GetMapping("/add")
@@ -43,12 +44,12 @@ public class EmployeeOperationsController {
 	}
 	
 	@PostMapping("/register")
-	public String registerEmployee(@ModelAttribute Employee emp,Map<String,Object> map) {
+	public String registerEmployee(@ModelAttribute Employee emp,RedirectAttributes attrs) {
 		String resultMsg = empService.registeEmployee(emp);
-		map.put("resultMsg", resultMsg);
+		attrs.addFlashAttribute("resultMsg", resultMsg);
 		List<Employee> emplist = empService.getAllEmployees();
-		map.put("empData", emplist);
-		return "employee_report"; 
+		attrs.addFlashAttribute("empData", emplist);
+		return "redirect:report"; 
 	}
 	
 	@GetMapping("/edit")
@@ -60,20 +61,20 @@ public class EmployeeOperationsController {
 	}
 	
 	@PostMapping("/edit_emp")
-	public String editEmployee(@ModelAttribute("emp") Employee emp, Map<String,Object> map) {
+	public String editEmployee(@ModelAttribute("emp") Employee emp, RedirectAttributes attrs) {
 		String resultMsg = empService.editEmployee(emp);
-		map.put("resultMsg", resultMsg);
+		attrs.addFlashAttribute("resultMsg", resultMsg);
 		List<Employee> emplist = empService.getAllEmployees();
-		map.put("empData", emplist);
-		return "employee_report"; 
+		attrs.addFlashAttribute("empData", emplist);
+		return "redirect:report"; 
 	}
 	
 	@GetMapping("/delete")
-	public String deleteEmployee(@RequestParam("no") Integer empno,Map<String,Object> map) {
+	public String deleteEmployee(@RequestParam("no") Integer empno,RedirectAttributes attrs) {
 		String resultMsg = empService.deleteEmployee(empno);
-		map.put("resultMsg", resultMsg);
+		attrs.addFlashAttribute("resultMsg", resultMsg);
 		List<Employee> emplist = empService.getAllEmployees();
-		map.put("empData", emplist);
-		return "employee_report";
+		attrs.addFlashAttribute("empData", emplist);
+		return "redirect:report";
 	}
 }

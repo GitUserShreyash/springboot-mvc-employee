@@ -31,13 +31,13 @@ public class EmployeeMgmtServiceImpl implements IEmployeeMgmtService{
 
 	@Override
 	public String editEmployee(Employee emp) {
-		return "Employee is edited with "+repo.save(emp).getEmpno();
+		return "Employee is edited with id "+repo.save(emp).getEmpno();
 	}
 
 	@Override
 	public String deleteEmployee(Integer id) {
 		repo.deleteById(id);
-		return "Employee is deleted with "+id;
+		return "Employee is deleted with id "+id;
 	}
 	
 	
